@@ -2,7 +2,7 @@ Made a Linear Regression Class.
 
 Can be imported into other linear regression projects.
 
-While I understand, the code and the math is not fully optimal and fast, this was a learning experience.
+While I understand the code and the math is not fully optimal and fast, this was a learning experience.
 
 Instead of just using another library for linear regression implementation, I thought I would create my own model so as to better understand the workings of a linear regression model.
 
