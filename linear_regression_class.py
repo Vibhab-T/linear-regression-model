@@ -1,5 +1,8 @@
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 class LinearRegressionModel:
     
@@ -39,7 +42,7 @@ class LinearRegressionModel:
             x_bias =  np.hstack((np.ones((N, 1)), X))
 
 
-            # Ordinaly Least Square Method: 0 = ((XᵀX)^(-1) Xᵀ y)
+           # Ordinary Least Squares Method: θ = (XᵀX)^(-1) Xᵀ y
             theta = np.linalg.inv(x_bias.T @ x_bias) @ x_bias.T @ Y
 
             self.intercepts = theta[0, 0]
@@ -67,7 +70,20 @@ class LinearRegressionModel:
             Y = x_bias @ theta
 
             return Y 
+        
+    def rSquared(self, x: pd.DataFrame, y: pd.Series):
+        y_prediction = self.predict(x)
+        ss_res = np.sum((y-y_prediction)**2)
+        ss_tot = np.sum((y-np.mean(y)) ** 2)
 
+        r_squared = 1 - (ss_res/ ss_tot)
 
+        return r_squared
+    
+    '''
+        Residual Sum of Squares, ss_res = =∑(yi - y^i)2
+        total sum of squares = ∑(yi - yˉ)2
 
+        R_squared = 1 - (SSres  / SStot)
 
+    '''
