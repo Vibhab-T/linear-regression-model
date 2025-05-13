@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from scipy import stats
 
 class LinearRegressionModel:
     
@@ -69,7 +70,11 @@ class LinearRegressionModel:
             return Y 
         
     def errors(self, x: pd.DataFrame, y: pd.Series):
-        y_prediction = self.predict(x)
+        y_prediction = np.array(self.predict(x))
+        y = y.to_numpy()
+
+        n = len(y)
+        k = x.shape[1]
 
         mean_absolute_error = np.mean(np.abs(y-y_prediction)) 
         mean_squared_error = np.mean((y - y_prediction) ** 2)
@@ -80,11 +85,20 @@ class LinearRegressionModel:
 
         r_squared = 1 - (ss_res/ ss_tot)
 
+        if k<n-1 and r_squared < 1:
+            f_stat = (r_squared/k) / ((1-r_squared)/(n-k-1))
+            p_value = 1 - stats.f.cdf(f_stat, k, n-k-1)
+        else:
+            f_stat = np.nan
+            p_value = np.nan
+
         errors = {
             "mean_absolute_error" : mean_absolute_error,
             "mean_squared_error": mean_squared_error,
             "root_mse": root_mse,
-            "r_squared": r_squared
+            "r_squared": r_squared, 
+            "f_stat": f_stat,
+            "p_value": p_value
         }
 
         return errors
@@ -99,5 +113,7 @@ class LinearRegressionModel:
         total sum of squares = ∑(yi - yˉ)2
 
         R_squared = 1 - (SSres  / SStot)
+
+        F = (R2/k)/((1-R2)/(n-k-1))
 
     '''
