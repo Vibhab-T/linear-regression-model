@@ -68,16 +68,33 @@ class LinearRegressionModel:
 
             return Y 
         
-    def rSquared(self, x: pd.DataFrame, y: pd.Series):
+    def errors(self, x: pd.DataFrame, y: pd.Series):
         y_prediction = self.predict(x)
+
+        mean_absolute_error = np.mean(np.abs(y-y_prediction)) 
+        mean_squared_error = np.mean((y - y_prediction) ** 2)
+        root_mse = np.sqrt(mean_squared_error)
+
         ss_res = np.sum((y-y_prediction)**2)
         ss_tot = np.sum((y-np.mean(y)) ** 2)
 
         r_squared = 1 - (ss_res/ ss_tot)
 
-        return r_squared
+        errors = {
+            "mean_absolute_error" : mean_absolute_error,
+            "mean_squared_error": mean_squared_error,
+            "root_mse": root_mse,
+            "r_squared": r_squared
+        }
+
+        return errors
     
     '''
+        Mean Absolute Error = (1/N)(E[1 to n]|yi - y^i|)
+        Mean Squared Error = (1/N)(E[1 to n](Yi - y^i)2)
+        RMSE = sqrt(Mean Squared Error)
+
+
         Residual Sum of Squares, ss_res = =∑(yi - y^i)2
         total sum of squares = ∑(yi - yˉ)2
 
