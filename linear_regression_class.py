@@ -21,7 +21,7 @@ class LinearRegressionModel:
             sum_x2 = np.sum(x2)
             sum_xy = np.sum(xy)
 
-
+            #least squares 
             gradient = ((N*sum_xy)-(sum_x*sum_y))/((N*sum_x2)-(sum_x*sum_x))
             intercept = (sum_y - (gradient * sum_x))/N
 
