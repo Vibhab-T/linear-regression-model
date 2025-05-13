@@ -23,4 +23,11 @@ plt.xlabel("Predictions")
 plt.title("Prediction Vs Actual Value")
 plt.show()
 
-print("R Squared = ", linear_model.rSquared(x_test, y_test))
+errors = linear_model.errors(x_test, y_test)
+
+print("Errors: \n")
+
+print("Mean Absolute Error: ", errors["mean_absolute_error"])
+print("Mean Squared Error: ", errors["mean_squared_error"])
+print("Root Mean Squared Error: ", errors["root_mse"])
+print("R Squared: ", errors["r_squared"])
